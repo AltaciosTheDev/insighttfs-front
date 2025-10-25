@@ -27,7 +27,7 @@ function TaskList() {
       {tasks.map((task) => {
         return (
           <li
-            onClick={() => handleToggleTask(task.id)}
+            onClick={() => handleToggleTask(task.id, !task.isCompleted)}
             key={task.id}
             className="flex justify-between items-center px-8 h-[50px] cursor-pointer border border-black/5"
           >
