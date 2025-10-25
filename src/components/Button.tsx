@@ -6,12 +6,12 @@ type ButtonProps = {
 }
 
 function Button ({children, type}: ButtonProps) {
-  const { isDeleting } = useTasksContext();
+  const { isLoading } = useTasksContext();
   
   return (
     <button
-      disabled={isDeleting ? true : false}
-      className={`${isDeleting ? "opacity-[50%]" : ""} cursor-pointer h-[50px] bg-[#473a2b] w-full text-white rounded-[8px] cursor pointer hover:bg-[#322618]  ${type === "secondary" ? "opacity-[85%]" : "" }`}
+      disabled={isLoading ? true : false}
+      className={`${isLoading ? "opacity-[50%]" : ""} cursor-pointer h-[50px] bg-[#473a2b] w-full text-white rounded-[8px] cursor pointer hover:bg-[#322618]  ${type === "secondary" ? "opacity-[85%]" : "" }`}
     >
       {children}
     </button>

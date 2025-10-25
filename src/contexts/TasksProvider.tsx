@@ -12,7 +12,6 @@ type TasksContextType = {
   handleToggleTask: (id: number) => void;
   handleDeleteTask: (id: number) => void;
   isLoading: boolean;
-  isDeleting: boolean
   errorMessage: string;
   loadingMessage:string
 };
@@ -23,7 +22,6 @@ function TasksProvider({ children }: { children: React.ReactNode }) {
   //state
   const [tasks, setTasks] = useState<Task[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isDeleting, setIsDeleting] = useState<boolean>(false)
   const [loadingMessage, setLoadingMessage] = useState<string>("")
   const [errorMessage, setErrorMessage] = useState<string>("");
 
@@ -48,7 +46,6 @@ function TasksProvider({ children }: { children: React.ReactNode }) {
     try{
       setErrorMessage("")
       setIsLoading(true)
-      setIsDeleting(true)
       setLoadingMessage("Deleting your task...")
       const taskDeleted = await deleteTask(id)
       //setTask only happens if deleTask returns sucessfully
@@ -64,7 +61,6 @@ function TasksProvider({ children }: { children: React.ReactNode }) {
       setErrorMessage(`${err}`);
     }
     setIsLoading(false)
-    setIsDeleting(false)
   };
 
   const handleAddTask = async (taskName: string): Promise<void> => {

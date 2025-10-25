@@ -6,7 +6,7 @@ import { useTasksContext } from "../lib/hooks";
 function AddTaskForm() {
   const [text, setText] = useState<string>("");
   const [formError, setFormError] = useState<string>("")
-  const { handleAddTask, isDeleting } = useTasksContext();
+  const { handleAddTask, isLoading } = useTasksContext();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newText = e.target.value;
@@ -43,7 +43,7 @@ function AddTaskForm() {
       />
       <p className="text-red-500 mb-2 text-[14px]">{formError}</p>
 
-      <Button>{isDeleting ? "Deleting..." : "Add task"}</Button>
+      <Button>{isLoading ? "Action in progress…" : "Add task"}</Button>
     </form>
   );
 }
