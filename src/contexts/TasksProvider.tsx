@@ -1,4 +1,5 @@
 import React, { createContext, useEffect } from "react";
+import { useKindeAuth } from "@kinde-oss/kinde-auth-react";
 import { useState } from "react";
 //import { initialTasks } from "../lib/constants";
 import type { Task } from "../lib/types";
@@ -29,12 +30,22 @@ function TasksProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [loadingMessage, setLoadingMessage] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
+  
+  //KINDE TOKEN HOOK
+  const { getAccessToken } = useKindeAuth();
 
   //derived
   const completedTasks: number = tasks.filter(
     (task) => task.isCompleted
   ).length;
   const tasksToComplete: number = tasks.length;
+
+
+
+  
+ 
+  
+
 
   //handlers
   const handleToggleTask = async (
@@ -101,10 +112,15 @@ function TasksProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const fetchTasks = async (): Promise<void> => {
       try {
+        const token = await getAccessToken()
+        if(!token){
+          throw new Error("No token from getAccessToken Kinde Function")
+        }
+        console.log(token)
         setErrorMessage("");
         setIsLoading(true);
         setLoadingMessage("Loading your tasks...");
-        const tasks = await getTasks();
+        const tasks = await getTasks(token);
         setTasks(tasks);
       } catch (err) {
         console.error(`${err}`);
