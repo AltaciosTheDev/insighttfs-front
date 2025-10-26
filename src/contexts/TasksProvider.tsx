@@ -9,6 +9,7 @@ import {
   postTask,
   toggleTask,
 } from "../services/tasks.services";
+import { getOrThrowAccessToken } from "../lib/utils";
 
 type TasksContextType = {
   tasks: Task[];
@@ -33,19 +34,13 @@ function TasksProvider({ children }: { children: React.ReactNode }) {
   
   //KINDE TOKEN HOOK
   const { getAccessToken } = useKindeAuth();
+  
 
   //derived
   const completedTasks: number = tasks.filter(
     (task) => task.isCompleted
   ).length;
   const tasksToComplete: number = tasks.length;
-
-
-
-  
- 
-  
-
 
   //handlers
   const handleToggleTask = async (
@@ -112,10 +107,8 @@ function TasksProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const fetchTasks = async (): Promise<void> => {
       try {
-        const token = await getAccessToken()
-        if(!token){
-          throw new Error("No token from getAccessToken Kinde Function")
-        }
+        //custom function for handling token
+        const token = await getOrThrowAccessToken(getAccessToken)
         console.log(token)
         setErrorMessage("");
         setIsLoading(true);
