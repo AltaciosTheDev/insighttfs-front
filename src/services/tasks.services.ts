@@ -1,8 +1,11 @@
 import type { Task } from "../lib/types";
 
+const BASE_URL = import.meta.env.VITE_API_URL
+console.log(BASE_URL)
+
 //GET tasks
 export async function getTasks(): Promise<Task[]> {
-  const res = await fetch(`http://localhost:3000/api/tasks`);
+  const res = await fetch(`${BASE_URL}/tasks`);
   if (!res.ok) {
     const error = await res.json(); // read backend error
     throw new Error(error.message);
@@ -16,7 +19,7 @@ export async function getTasks(): Promise<Task[]> {
 
 //POST task
 export async function postTask(taskName: string): Promise<Task> {
-  const res = await fetch(`http://localhost:3000/api/tasks`, {
+  const res = await fetch(`${BASE_URL}/tasks`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ taskName: taskName }),
@@ -34,7 +37,7 @@ export async function postTask(taskName: string): Promise<Task> {
 
 //DELETE task
 export async function deleteTask(id: number): Promise<Task> {
-  const res = await fetch(`http://localhost:3000/api/tasks/${id}`, {
+  const res = await fetch(`${BASE_URL}/tasks/${id}`, {
     method: "DELETE",
   });
 
@@ -51,7 +54,7 @@ export async function deleteTask(id: number): Promise<Task> {
 
 //TOGGLE task
 export async function toggleTask(id: number, isCompleted:boolean): Promise<Task> {
-  const res = await fetch(`http://localhost:3000/api/tasks/${id}`, {
+  const res = await fetch(`${BASE_URL}/tasks/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ isCompleted: isCompleted }),
