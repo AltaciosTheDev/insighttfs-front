@@ -1,7 +1,7 @@
 import { useKindeAuth } from "@kinde-oss/kinde-auth-react";
 
 function Login() {
-  const { login, register, isAuthenticated, user} = useKindeAuth();
+  const { login, register} = useKindeAuth();
 
 
 const handleLogIn = ():void => {

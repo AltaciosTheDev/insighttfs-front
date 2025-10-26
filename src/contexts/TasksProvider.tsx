@@ -48,10 +48,13 @@ function TasksProvider({ children }: { children: React.ReactNode }) {
     isCompleted: boolean
   ): Promise<void> => {
     try {
+      //custom function for handling token
+      const token = await getOrThrowAccessToken(getAccessToken)
+      console.log(token)
       setErrorMessage("");
       setIsLoading(true);
       setLoadingMessage("Updating your task...");
-      const updatedTask = await toggleTask(id, isCompleted);
+      const updatedTask = await toggleTask(id, isCompleted, token);
       setTasks((prevTasks) => {
         return prevTasks.map((task) => {
           return task.id == id
@@ -69,10 +72,13 @@ function TasksProvider({ children }: { children: React.ReactNode }) {
 
   const handleDeleteTask = async (id: number): Promise<void> => {
     try {
+      //custom function for handling token
+      const token = await getOrThrowAccessToken(getAccessToken)
+      console.log(token)
       setErrorMessage("");
       setIsLoading(true);
       setLoadingMessage("Deleting your task...");
-      const taskDeleted = await deleteTask(id);
+      const taskDeleted = await deleteTask(id, token);
       //setTask only happens if deleTask returns sucessfully
       setTasks((prevTasks) => {
         return prevTasks.filter((task) => {
@@ -89,10 +95,13 @@ function TasksProvider({ children }: { children: React.ReactNode }) {
 
   const handleAddTask = async (taskName: string): Promise<void> => {
     try {
+      //custom function for handling token
+      const token = await getOrThrowAccessToken(getAccessToken)
+      console.log(token)
       setErrorMessage("");
       setIsLoading(true);
       setLoadingMessage("Adding your task...");
-      const newTask = await postTask(taskName);
+      const newTask = await postTask(taskName,token);
       setTasks((prevTasks) => {
         return [newTask, ...prevTasks];
       });

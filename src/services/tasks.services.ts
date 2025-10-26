@@ -1,17 +1,13 @@
 import type { Task } from "../lib/types";
 
-
-const BASE_URL = import.meta.env.VITE_API_URL
-console.log(BASE_URL)
-
+const BASE_URL = import.meta.env.VITE_API_URL;
+console.log(BASE_URL);
 
 //GET tasks
-export async function getTasks(token:string): Promise<Task[]> {
-
-    const res = await fetch(`${BASE_URL}/tasks`, {
+export async function getTasks(token: string): Promise<Task[]> {
+  const res = await fetch(`${BASE_URL}/tasks`, {
     method: "GET",
-     headers: {Authorization: `Bearer ${token}`,
-  }
+    headers: { Authorization: `Bearer ${token}` },
   });
   if (!res.ok) {
     const error = await res.json(); // read backend error
@@ -25,10 +21,13 @@ export async function getTasks(token:string): Promise<Task[]> {
 }
 
 //POST task
-export async function postTask(taskName: string): Promise<Task> {
+export async function postTask(taskName: string, token: string): Promise<Task> {
   const res = await fetch(`${BASE_URL}/tasks`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
     body: JSON.stringify({ taskName: taskName }),
   });
   if (!res.ok) {
@@ -43,9 +42,10 @@ export async function postTask(taskName: string): Promise<Task> {
 }
 
 //DELETE task
-export async function deleteTask(id: number): Promise<Task> {
+export async function deleteTask(id: number, token: string): Promise<Task> {
   const res = await fetch(`${BASE_URL}/tasks/${id}`, {
     method: "DELETE",
+    headers: { Authorization: `Bearer ${token}` }
   });
 
   if (!res.ok) {
@@ -60,10 +60,17 @@ export async function deleteTask(id: number): Promise<Task> {
 }
 
 //TOGGLE task
-export async function toggleTask(id: number, isCompleted:boolean): Promise<Task> {
+export async function toggleTask(
+  id: number,
+  isCompleted: boolean,
+  token: string
+): Promise<Task> {
   const res = await fetch(`${BASE_URL}/tasks/${id}`, {
     method: "PUT",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`,
+    },
     body: JSON.stringify({ isCompleted: isCompleted }),
   });
 
