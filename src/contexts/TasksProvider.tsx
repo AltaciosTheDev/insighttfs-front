@@ -12,6 +12,11 @@ import {
 import { getOrThrowAccessToken } from "../lib/utils";
 
 type TasksContextType = {
+  open: boolean,
+  handleOpen: () => void,
+  handleClose: () => void,
+  taskToEdit: string,
+  handleTaskToEdit: (text:string) => void
   tasks: Task[];
   tasksToComplete: number;
   completedTasks: number;
@@ -31,10 +36,25 @@ function TasksProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [loadingMessage, setLoadingMessage] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [open, setOpen] = useState(false)
+  const [taskToEdit, setTaskToEdit] = useState("")
   
+  //handle task to edit
+  const handleTaskToEdit = (text:string):void => {
+    setTaskToEdit(text)
+  }
+
   //KINDE TOKEN HOOK
   const { getAccessToken } = useKindeAuth();
   
+  //HANDLE EDIT FORM
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   //derived
   const completedTasks: number = tasks.filter(
@@ -137,6 +157,11 @@ function TasksProvider({ children }: { children: React.ReactNode }) {
   return (
     <TasksContext.Provider
       value={{
+        taskToEdit,
+        handleTaskToEdit,
+        open,
+        handleOpen,
+        handleClose,
         tasks,
         isLoading,
         loadingMessage,

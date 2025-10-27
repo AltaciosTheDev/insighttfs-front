@@ -1,8 +1,12 @@
 import DeleteButton from "./DeleteButton";
 import { useTasksContext } from "../lib/hooks";
+import ButtonWithIcon from "./material/ButtonWithIcon"
+import EditTaskModal from "../components/material/EditTaskModal"
 
 function TaskList() {
   const {
+    handleOpen,
+    handleTaskToEdit,
     tasks,
     isLoading,
     loadingMessage,
@@ -21,13 +25,17 @@ function TaskList() {
       return <p className="mx-auto my-auto text-red-500">{errorMessage}</p>;
   }
 
+  const handleOpenAndSetTaskToEdit = (text:string) => {
+    handleOpen()
+    handleTaskToEdit(text)
+  }
 
   return tasksToComplete != 0 ? (
     <ul className="overflow-auto">
+      <EditTaskModal/>
       {tasks.map((task) => {
         return (
           <li
-            onClick={() => handleToggleTask(task.id, !task.isCompleted)}
             key={task.id}
             className="flex justify-between items-center px-8 h-[50px] cursor-pointer border border-black/5"
           >
@@ -38,7 +46,13 @@ function TaskList() {
             >
               {task.name}
             </span>
-            <DeleteButton onDelete={() => handleDeleteTask(task.id)} />
+            <ButtonWithIcon 
+            onOpen = {() => handleOpenAndSetTaskToEdit(task.name)}
+            onToggle={() => handleToggleTask(task.id, !task.isCompleted)}
+            onDelete={() => handleDeleteTask(task.id)}
+            isCompleted={task.isCompleted}
+            />
+            {/* <DeleteButton onDelete={() => handleDeleteTask(task.id)} /> */}
           </li>
         );
       })}

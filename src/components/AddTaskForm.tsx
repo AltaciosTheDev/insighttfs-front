@@ -39,7 +39,7 @@ function AddTaskForm() {
         onChange={handleChange}
         value={text}
         type="text"
-        className="placeholder:text-gray-400 h-[50px] border border-black/20 rounded-[8px] my-2 p-2 "
+        className="w-full placeholder:text-gray-400 h-[50px] border border-black/20 rounded-[8px] my-2 p-2 "
       />
       <p className="text-red-500 mb-2 text-[14px]">{formError}</p>
 
