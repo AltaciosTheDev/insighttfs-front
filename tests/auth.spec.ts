@@ -10,7 +10,7 @@ test('login', async ({ page }) => {
   await expect(page).toHaveTitle("Sign in | Altacios");
   //email
   const email = page.getByRole("textbox")
-  await email.fill("breifripremula-7967@yopmail.com")
+  await email.fill("kottitanoubi-2619@yopmail.com")
   const continueBtn = page.getByRole('button', { name: 'Continue' })
   await continueBtn.click()
   //redirect to password page
@@ -18,7 +18,7 @@ test('login', async ({ page }) => {
 
   //password
   const password = page.getByRole("textbox")
-  await password.fill("amaterasu!1")
+  await password.fill("helloandgoodbye43")
   await continueBtn.click()
   //tasks page
   const title = page.getByRole("heading", {name: "Tasks"})

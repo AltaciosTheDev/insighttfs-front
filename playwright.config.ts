@@ -1,4 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
+// playwright.config.ts
+
 
 /**
  * Read environment variables from file.
