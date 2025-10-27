@@ -3,6 +3,7 @@ import Login from "../pages/Login";
 import Dashboard from "../pages/Dashboard";
 import Auth from "../pages/Auth";
 import CallbackPage from "../pages/CallbackPage";
+import NotFound from "../pages/NotFound";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route element={<Auth />}>
           <Route path="/dashboard" element={<Dashboard />} />
         </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );

@@ -110,7 +110,7 @@ function TasksProvider({ children }: { children: React.ReactNode }) {
         }
       setErrorMessage("");
       setIsLoading(true);
-      setLoadingMessage("Toggling your task...");
+      setLoadingMessage(`${isCompleted ? "Marking task as complete...."  : "Marking task as incomplete..."}`);
       const updatedTask = await toggleTask(id, isCompleted, token);
       setTasks((prevTasks) => {
         return prevTasks.map((task) => {

@@ -1,7 +1,8 @@
 //import DeleteButton from "./DeleteButton";
 import { useTasksContext } from "../lib/hooks";
-import ButtonWithIcon from "./material/ButtonWithIcon"
-import EditTaskModal from "../components/material/EditTaskModal"
+import ButtonWithIcon from "./material/ButtonWithIcon";
+import EditTaskModal from "../components/material/EditTaskModal";
+import Spinner from "./material/Spinner";
 
 function TaskList() {
   const {
@@ -16,28 +17,32 @@ function TaskList() {
     handleDeleteTask,
   } = useTasksContext();
 
-
   if (isLoading) {
-    return <p className="mx-auto my-auto">{loadingMessage}</p>;
+    return (
+      <div className="mx-auto my-auto">
+        <Spinner />
+        <p className="mt-2">{loadingMessage}</p>
+      </div>
+    );
   }
 
-  if(errorMessage){
-      return <p className="mx-auto my-auto text-red-500">{errorMessage}</p>;
+  if (errorMessage) {
+    return <p className="mx-auto my-auto text-red-500">{errorMessage}</p>;
   }
 
-  const handleOpenAndSetTaskToEdit = (id:number,text:string) => {
-    handleOpen()
-    handleTaskToEdit(id,text)
-  }
+  const handleOpenAndSetTaskToEdit = (id: number, text: string) => {
+    handleOpen();
+    handleTaskToEdit(id, text);
+  };
 
   return tasksToComplete != 0 ? (
-    <ul className="overflow-auto">
-      <EditTaskModal/>
+    <ul className="overflow-auto my-3">
+      <EditTaskModal />
       {tasks.map((task) => {
         return (
           <li
             key={task.id}
-            className="flex justify-between items-center px-8 h-[50px] cursor-pointer border border-black/5"
+            className="flex justify-between items-center px-8 h-[50px] border border-black/5"
           >
             <span
               className={`${
@@ -46,11 +51,11 @@ function TaskList() {
             >
               {task.name}
             </span>
-            <ButtonWithIcon 
-            onOpen = {() => handleOpenAndSetTaskToEdit(task.id, task.name)}
-            onToggle={() => handleToggleTask(task.id, !task.isCompleted)}
-            onDelete={() => handleDeleteTask(task.id)}
-            isCompleted={task.isCompleted}
+            <ButtonWithIcon
+              onOpen={() => handleOpenAndSetTaskToEdit(task.id, task.name)}
+              onToggle={() => handleToggleTask(task.id, !task.isCompleted)}
+              onDelete={() => handleDeleteTask(task.id)}
+              isCompleted={task.isCompleted}
             />
             {/* <DeleteButton onDelete={() => handleDeleteTask(task.id)} /> */}
           </li>
