@@ -49,7 +49,7 @@ function TasksProvider({ children }: { children: React.ReactNode }) {
   }
 
   //KINDE TOKEN HOOK
-  const { getAccessToken } = useKindeAuth();
+  const { getAccessToken, isLoading:kindeIsLoading, isAuthenticated } = useKindeAuth();
   
   //HANDLE EDIT FORM
   const handleOpen = () => {
@@ -73,9 +73,11 @@ function TasksProvider({ children }: { children: React.ReactNode }) {
     name: string 
   ): Promise<void> => {
     try {
-      //custom function for handling token
-      const token = await getOrThrowAccessToken(getAccessToken)
-      console.log(token)
+        //custom function for handling token
+        const token = await getAccessToken();
+        if (!token) {
+          throw new Error("No token from getAccessToken Kinde Function");
+        }
       setErrorMessage("");
       setIsLoading(true);
       setLoadingMessage("Editing your task...");
@@ -101,9 +103,11 @@ function TasksProvider({ children }: { children: React.ReactNode }) {
     isCompleted: boolean
   ): Promise<void> => {
     try {
-      //custom function for handling token
-      const token = await getOrThrowAccessToken(getAccessToken)
-      console.log(token)
+        //custom function for handling token
+        const token = await getAccessToken();
+        if (!token) {
+          throw new Error("No token from getAccessToken Kinde Function");
+        }
       setErrorMessage("");
       setIsLoading(true);
       setLoadingMessage("Toggling your task...");
@@ -125,9 +129,11 @@ function TasksProvider({ children }: { children: React.ReactNode }) {
 
   const handleDeleteTask = async (id: number): Promise<void> => {
     try {
-      //custom function for handling token
-      const token = await getOrThrowAccessToken(getAccessToken)
-      console.log(token)
+        //custom function for handling token
+        const token = await getAccessToken();
+        if (!token) {
+          throw new Error("No token from getAccessToken Kinde Function");
+        }
       setErrorMessage("");
       setIsLoading(true);
       setLoadingMessage("Deleting your task...");
@@ -148,9 +154,11 @@ function TasksProvider({ children }: { children: React.ReactNode }) {
 
   const handleAddTask = async (taskName: string): Promise<void> => {
     try {
-      //custom function for handling token
-      const token = await getOrThrowAccessToken(getAccessToken)
-      console.log(token)
+        //custom function for handling token
+        const token = await getAccessToken();
+        if (!token) {
+          throw new Error("No token from getAccessToken Kinde Function");
+        }
       setErrorMessage("");
       setIsLoading(true);
       setLoadingMessage("Adding your task...");
@@ -165,12 +173,17 @@ function TasksProvider({ children }: { children: React.ReactNode }) {
     }
     setIsLoading(false);
   };
+  
 
   useEffect(() => {
+    if (kindeIsLoading || !isAuthenticated) return;
     const fetchTasks = async (): Promise<void> => {
       try {
         //custom function for handling token
-        const token = await getOrThrowAccessToken(getAccessToken)
+        const token = await getAccessToken();
+        if (!token) {
+          throw new Error("No token from getAccessToken Kinde Function");
+        }
         console.log(token)
         setErrorMessage("");
         setIsLoading(true);

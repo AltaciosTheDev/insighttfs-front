@@ -12,7 +12,7 @@ createRoot(document.getElementById("root")!).render(
       //audience="http://localhost:3000"
       clientId={import.meta.env.VITE_KINDE_CLIENT_ID}
       domain={import.meta.env.VITE_KINDE_DOMAIN}
-      redirectUri="http://localhost:5174/dashboard"
+      redirectUri="http://localhost:5174/callback" 
       logoutUri="http://localhost:5174"
     >
       <TasksProvider>
