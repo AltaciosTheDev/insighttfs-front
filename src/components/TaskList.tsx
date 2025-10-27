@@ -1,4 +1,4 @@
-import DeleteButton from "./DeleteButton";
+//import DeleteButton from "./DeleteButton";
 import { useTasksContext } from "../lib/hooks";
 import ButtonWithIcon from "./material/ButtonWithIcon"
 import EditTaskModal from "../components/material/EditTaskModal"
@@ -25,9 +25,9 @@ function TaskList() {
       return <p className="mx-auto my-auto text-red-500">{errorMessage}</p>;
   }
 
-  const handleOpenAndSetTaskToEdit = (text:string) => {
+  const handleOpenAndSetTaskToEdit = (id:number,text:string) => {
     handleOpen()
-    handleTaskToEdit(text)
+    handleTaskToEdit(id,text)
   }
 
   return tasksToComplete != 0 ? (
@@ -47,7 +47,7 @@ function TaskList() {
               {task.name}
             </span>
             <ButtonWithIcon 
-            onOpen = {() => handleOpenAndSetTaskToEdit(task.name)}
+            onOpen = {() => handleOpenAndSetTaskToEdit(task.id, task.name)}
             onToggle={() => handleToggleTask(task.id, !task.isCompleted)}
             onDelete={() => handleDeleteTask(task.id)}
             isCompleted={task.isCompleted}

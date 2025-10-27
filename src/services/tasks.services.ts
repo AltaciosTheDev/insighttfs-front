@@ -84,3 +84,30 @@ export async function toggleTask(
   await new Promise((resolve) => setTimeout(resolve, 500));
   return data.task;
 }
+
+//EDIT task
+export async function editTask(
+  id: number,
+  name: string,
+  token: string
+): Promise<Task> {
+  const res = await fetch(`${BASE_URL}/tasks/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`,
+    },
+    body: JSON.stringify({ name }),
+  });
+
+  if (!res.ok) {
+    const error = await res.json(); //must read error from backend
+    throw new Error(error.message);
+  }
+  const data = await res.json();
+  console.log(data);
+
+  await new Promise((resolve) => setTimeout(resolve, 500));
+  return data.task;
+}
+

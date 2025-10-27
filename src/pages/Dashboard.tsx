@@ -2,7 +2,7 @@ import Title from '../components/Title'
 import Header from '../components/Header'
 import TaskList from '../components/TaskList'
 import { Sidebar } from '../components/Sidebar'
-import EditTaskModal from "../components/material/EditTaskModal"
+//import EditTaskModal from "../components/material/EditTaskModal"
 
 function Dashboard() {
   return (

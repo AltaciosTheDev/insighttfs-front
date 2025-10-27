@@ -9,20 +9,26 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { useTasksContext } from "../../lib/hooks";
 
 export default function EditTaskModal() {
-  const { open, handleClose, handleTaskToEdit, taskToEdit } = useTasksContext();
+  const { open, handleClose, handleTaskToEdit, taskToEdit, handleEditTask } = useTasksContext();
 
   const handleCloseAndCleanTaskToEdit = () => {
     handleClose();
-    handleTaskToEdit("");
+    handleTaskToEdit(taskToEdit.id, "");
   };
 
   // keep TextField controlled even if taskToEdit is undefined/null
-  const [text, setText] = React.useState<string>(taskToEdit ?? "");
+  const [text, setText] = React.useState<string>(taskToEdit.name ?? "");
 
   //"Hey — every time taskToEdit changes (like when user clicks a different Edit button), update the input value (text) to match."
   React.useEffect(() => {
-    setText(taskToEdit ?? "");
+    setText(taskToEdit.name ?? "");
   }, [taskToEdit]);
+
+
+  //Just because the modal disappears visually… does NOT mean the component unmounted.
+  //MUI’s <Dialog> by default keeps the component mounted in memory — it’s only hiding it.
+  //That means: no fresh re-render, no new initial state, nothing resets automatically.
+
 
   const handleOnChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -30,10 +36,11 @@ export default function EditTaskModal() {
     setText(e.target.value);
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // TODO: call your update action here with `text`
     // e.g. await updateTaskName(taskId, text)
+    await handleEditTask(taskToEdit.id,text)
     handleCloseAndCleanTaskToEdit();
   };
 
@@ -43,9 +50,8 @@ export default function EditTaskModal() {
         <DialogTitle>Edit Task</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Make changes to your task and save when you're ready.
+            Make changes to your task <span className="bold">{`(Id:${taskToEdit.id})`} </span> and save when you're ready.
           </DialogContentText>
-
           <form onSubmit={handleSubmit} id="edit-task-form">
             <TextField
               autoFocus

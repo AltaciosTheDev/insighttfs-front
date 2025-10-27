@@ -5,24 +5,28 @@ import { useState } from "react";
 import type { Task } from "../lib/types";
 import {
   deleteTask,
+  editTask,
   getTasks,
   postTask,
   toggleTask,
 } from "../services/tasks.services";
 import { getOrThrowAccessToken } from "../lib/utils";
 
+type TaskToEdit = { id: number; name: string };
+
 type TasksContextType = {
   open: boolean,
   handleOpen: () => void,
   handleClose: () => void,
-  taskToEdit: string,
-  handleTaskToEdit: (text:string) => void
+  taskToEdit: TaskToEdit,
+  handleTaskToEdit: (id: number,text:string) => void
   tasks: Task[];
   tasksToComplete: number;
   completedTasks: number;
   handleAddTask: (taskName: string) => void;
   handleToggleTask: (id: number, isCompleted: boolean) => void;
   handleDeleteTask: (id: number) => void;
+  handleEditTask: (id: number, name:string) => Promise<void>,
   isLoading: boolean;
   errorMessage: string;
   loadingMessage: string;
@@ -37,11 +41,11 @@ function TasksProvider({ children }: { children: React.ReactNode }) {
   const [loadingMessage, setLoadingMessage] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [open, setOpen] = useState(false)
-  const [taskToEdit, setTaskToEdit] = useState("")
+  const [taskToEdit, setTaskToEdit] = useState({id:1, name:""})
   
   //handle task to edit
-  const handleTaskToEdit = (text:string):void => {
-    setTaskToEdit(text)
+  const handleTaskToEdit = (id:number, text:string):void => {
+    setTaskToEdit({id:id, name:text})
   }
 
   //KINDE TOKEN HOOK
@@ -62,6 +66,35 @@ function TasksProvider({ children }: { children: React.ReactNode }) {
   ).length;
   const tasksToComplete: number = tasks.length;
 
+
+
+  const handleEditTask = async (
+    id: number,
+    name: string 
+  ): Promise<void> => {
+    try {
+      //custom function for handling token
+      const token = await getOrThrowAccessToken(getAccessToken)
+      console.log(token)
+      setErrorMessage("");
+      setIsLoading(true);
+      setLoadingMessage("Editing your task...");
+      const updatedTask = await editTask(id, name, token);
+      setTasks((prevTasks) => {
+        return prevTasks.map((task) => {
+          return task.id == id
+            ? { ...task, name: updatedTask.name }
+            : task;
+        });
+      });
+    } catch (err) {
+      console.error(`${err}`);
+      console.error(`${err}`);
+      setErrorMessage(`${err}`);
+    }
+    setIsLoading(false);
+  };
+
   //handlers
   const handleToggleTask = async (
     id: number,
@@ -73,7 +106,7 @@ function TasksProvider({ children }: { children: React.ReactNode }) {
       console.log(token)
       setErrorMessage("");
       setIsLoading(true);
-      setLoadingMessage("Updating your task...");
+      setLoadingMessage("Toggling your task...");
       const updatedTask = await toggleTask(id, isCompleted, token);
       setTasks((prevTasks) => {
         return prevTasks.map((task) => {
@@ -157,6 +190,7 @@ function TasksProvider({ children }: { children: React.ReactNode }) {
   return (
     <TasksContext.Provider
       value={{
+        handleEditTask,
         taskToEdit,
         handleTaskToEdit,
         open,
