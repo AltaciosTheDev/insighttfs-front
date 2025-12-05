@@ -15,7 +15,7 @@ const handleSignUp = ():void => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50">
-      <h1 className="text-3xl font-bold">Enzo's Insightt Full Stack Developer Technical Test</h1>
+      <h1 className="text-3xl font-bold">Full Stack Task CRUD with 3rd Party Auth(Kinde)</h1>
       <p className="text-gray-600 m-2">
         You will be redirected to a third-party service to authenticate
       </p>
