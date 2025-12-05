@@ -87,3 +87,15 @@ npx playwright test --ui
 - Pending task count
 - Completion status tracking
 
+### Available Users For Testing
+- debacoiddumo-5243@yopmail.com
+  - myfriends321
+- kottitanoubi-2619@yopmail.com
+  - helloandgoodbye43
+- fecroufrutrele-3148@yopmail.com
+  - skelly4bone3
+- breifripremula-7967@yopmail.com
+  - bone3skelly4
+- cevifecrouyoi-1402@yopmail.com
+  - finalsandwich1@
+
