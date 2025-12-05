@@ -88,6 +88,9 @@ npx playwright test --ui
 - Completion status tracking
 
 ### Available Users For Testing
+
+You can log in with any of these already created users. 
+
 - debacoiddumo-5243@yopmail.com
   - myfriends321
 - kottitanoubi-2619@yopmail.com
